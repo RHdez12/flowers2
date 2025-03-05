@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reserva de Detalles</title>
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            background: url('img/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 500px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+    </style>
+</head>
+
+<body onload="verificarSesion()">
+    <!-- Navbar Start -->
+<div class="container-fluid position-relative nav-bar p-0">
+    <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+            <a href="" class="navbar-brand">
+                <h1 class="m-0 text-primary"><span class="text-dark">GARDEN FLOWERS</span></h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                <div class="navbar-nav ml-auto py-0">
+                    <!-- Inicio con icono de casa -->
+                    <a href="index.html" class="nav-item nav-link active">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                    <!-- Eventos con icono de calendario -->
+                    <a href="evento.html" class="nav-item nav-link">
+                        <i class="fas fa-calendar-alt"></i> Eventos
+                    </a>
+                    <!-- Catálogo con icono de lista -->
+                    <a href="catalogo.html" class="nav-item nav-link">
+                        <i class="fas fa-list"></i> Catálogo
+                    </a>
+                    <!-- Contacto con icono de sobre -->
+                    <a href="contact.html" class="nav-item nav-link">
+                        <i class="fas fa-envelope"></i> Contacto
+                    </a>
+                    <!-- Sesión o Cerrar Sesión (dinámico) -->
+                    <div id="sesion-nav">
+                        <!-- El contenido se actualizará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End -->
+
+    <div class="container mt-5">
+        <h2 class="text-center mb-4"><i class="fa-solid fa-gift"></i> Reserva de Detalles</h2>
+        <p id="detalleSeleccionado" class="text-center fw-bold"></p>
+
+        <form id="formReserva" class="mt-4" novalidate>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" class="form-control" id="telefono" placeholder="Ingrese su teléfono" required pattern="\d{1,20}" title="Solo números, máximo 20 dígitos">
+                <div class="invalid-feedback">Debe digitar solo números, máximo 20 dígitos.</div>
+            </div>
+            <div class="mb-3">
+                <label for="entrega">Método de entrega:</label>
+                <select id="entrega" class="form-control" onchange="mostrarCamposEnvio()" required>
+                    <option value="recogida">Local</option>
+                    <option value="envio">Envío a domicilio</option>
+                </select>
+                <div class="invalid-feedback">Debe seleccionar un método de entrega.</div>
+
+                <div id="campos-envio" style="display: none;">
+                    <label for="nombre-entrega">Nombre de la persona que recibirá:</label>
+                    <input type="text" id="nombre-entrega" class="form-control">
+                    <div class="invalid-feedback">Debe ingresar el nombre de la persona que recibirá.</div>
+                    <label for="telefono-entrega">Teléfono:</label>
+                    <input type="text" id="telefono-entrega" class="form-control" pattern="\d{1,20}" title="Solo números, máximo 20 dígitos">
+                    <div class="invalid-feedback">Debe digitar solo números, máximo 20 dígitos.</div>
+                    <label for="direccion-entrega">Dirección:</label>
+                    <input type="text" id="direccion-entrega" class="form-control">
+                    <div class="invalid-feedback">Debe ingresar una dirección.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha de Entrega</label>
+                <input type="date" class="form-control" id="fecha" required>
+                <div class="invalid-feedback">Debe seleccionar una fecha válida.</div>
+            </div>
+            <div class="mb-3">
+                <label for="hora" class="form-label">Hora de Entrega</label>
+                <input type="time" class="form-control" id="hora" required>
+                <div class="invalid-feedback">Debe seleccionar una hora válida.</div>
+            </div>
+            <div class="mb-3">
+                <label for="metodoPago" class="form-label">Método de Pago</label>
+                <select class="form-control" id="metodoPago" onchange="mostrarCamposPago()" required>
+                    <option value="efectivo">Efectivo</option>
+                    <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+                </select>
+                <div class="invalid-feedback">Debe seleccionar un método de pago.</div>
+            </div>
+            <div id="campos-pago" style="display: none;">
+                <div class="mb-3">
+                    <label for="numeroTarjeta" class="form-label">Número de Tarjeta</label>
+                    <input type="text" class="form-control" id="numeroTarjeta" pattern="\d{16}" title="Debe contener 16 dígitos">
+                    <div class="invalid-feedback">Debe contener 16 dígitos.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="fechaExpiracion" class="form-label">Fecha de Expiración</label>
+                    <input type="month" class="form-control" id="fechaExpiracion">
+                    <div class="invalid-feedback">Debe seleccionar una fecha de expiración válida.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="cvv" class="form-label">CVV</label>
+                    <input type="text" class="form-control" id="cvv" pattern="\d{3}" title="Debe contener 3 dígitos">
+                    <div class="invalid-feedback">Debe contener 3 dígitos.</div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success w-100">Confirmar Reserva</button>
+        </form>
+    </div>
+
+    <script>
+     {
+    
+    // Función para verificar la sesión y actualizar el menú
+    function verificarSesion() {
+        const usuarioLogueado = localStorage.getItem("loggedInUser");
+        const sesionNav = document.getElementById("sesion-nav");
+
+        if (usuarioLogueado) {
+            // Si el usuario está autenticado, mostrar "Cerrar Sesión"
+            sesionNav.innerHTML = `
+                <a href="#" class="nav-item nav-link" onclick="cerrarSesion()">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                </a>
+            `;
+        } else {
+            // Si el usuario no está autenticado, mostrar "Sesión"
+            sesionNav.innerHTML = `
+                <a href="login.html" class="nav-item nav-link">
+                    <i class="fas fa-user"></i> Sesión
+                </a>
+            `;
+        }
+    }
+
+    // Función para cerrar sesión
+    function cerrarSesion() {
+        localStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+    }
+
+    // Llamar a la función al cargar la página
+    document.addEventListener("DOMContentLoaded", function () {
+        verificarSesion();
+    });
+}
+
+// Llamar a la función al cargar la página
+document.addEventListener("DOMContentLoaded", function () {
+    verificarSesion();
+    actualizarMenu(); // Actualizar el menú
+});
+        function mostrarCamposEnvio() {
+            const entrega = document.getElementById('entrega').value;
+            const camposEnvio = document.getElementById('campos-envio');
+            if (entrega === 'envio') {
+                camposEnvio.style.display = 'block';
+                document.getElementById('nombre-entrega').setAttribute('required', 'required');
+                document.getElementById('telefono-entrega').setAttribute('required', 'required');
+                document.getElementById('direccion-entrega').setAttribute('required', 'required');
+            } else {
+                camposEnvio.style.display = 'none';
+                document.getElementById('nombre-entrega').removeAttribute('required');
+                document.getElementById('telefono-entrega').removeAttribute('required');
+                document.getElementById('direccion-entrega').removeAttribute('required');
+            }
+        }
+
+        function mostrarCamposPago() {
+            const metodoPago = document.getElementById('metodoPago').value;
+            const camposPago = document.getElementById('campos-pago');
+            if (metodoPago === 'tarjeta') {
+                camposPago.style.display = 'block';
+                document.getElementById('numeroTarjeta').setAttribute('required', 'required');
+                document.getElementById('fechaExpiracion').setAttribute('required', 'required');
+                document.getElementById('cvv').setAttribute('required', 'required');
+            } else {
+                camposPago.style.display = 'none';
+                document.getElementById('numeroTarjeta').removeAttribute('required');
+                document.getElementById('fechaExpiracion').removeAttribute('required');
+                document.getElementById('cvv').removeAttribute('required');
+            }
+        }
+
+        function validarFechaHora() {
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+            const fechaActual = new Date().toISOString().split('T')[0];
+            const horaMinima = "07:00";
+            const horaMaxima = "17:00";
+
+            if (fecha < fechaActual) {
+                alert("Debe seleccionar una fecha válida.");
+                return false;
+            }
+
+            if (hora < horaMinima || hora > horaMaxima) {
+                alert("Debe seleccionar una hora válida entre 07:00 AM y 05:00 PM.");
+                return false;
+            }
+
+            return true;
+        }
+
+        // Obtener los parámetros de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const nombre = urlParams.get('nombre');
+        const precio = parseFloat(urlParams.get('precio'));
+        const imagen = urlParams.get('imagen');
+
+        // Mostrar el detalle seleccionado
+        document.getElementById('detalleSeleccionado').textContent = `${nombre} - $${precio.toFixed(2)}`;
+
+        // Manejar el envío del formulario
+        document.getElementById('formReserva').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const form = e.target;
+            if (!form.checkValidity() || !validarFechaHora()) {
+                e.stopPropagation();
+                form.classList.add('was-validated');
+                return;
+            }
+
+            const telefono = document.getElementById('telefono').value;
+            const metodoEntrega = document.getElementById('entrega').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
+            const metodoPago = document.getElementById('metodoPago').value;
+
+            let direccion = '';
+            let nombreEntrega = '';
+            let telefonoEntrega = '';
+            let costoEnvio = 0;
+
+            if (metodoEntrega === 'envio') {
+                direccion = document.getElementById('direccion-entrega').value;
+                nombreEntrega = document.getElementById('nombre-entrega').value;
+                telefonoEntrega = document.getElementById('telefono-entrega').value;
+                costoEnvio = 5.00; // Costo adicional por envío
+            }
+
+            let numeroTarjeta = '';
+            let fechaExpiracion = '';
+            let cvv = '';
+
+            if (metodoPago === 'tarjeta') {
+                numeroTarjeta = document.getElementById('numeroTarjeta').value;
+                fechaExpiracion = document.getElementById('fechaExpiracion').value;
+                cvv = document.getElementById('cvv').value;
+            }
+
+            // Crear el objeto de reserva
+            const reserva = {
+                nombre,
+                precio,
+                imagen,
+                telefono,
+                direccion,
+                fecha,
+                hora,
+                metodoPago,
+                costoEnvio,
+                nombreEntrega,
+                telefonoEntrega,
+                numeroTarjeta,
+                fechaExpiracion,
+                cvv
+            };
+
+            // Agregar al carrito
+            let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+            carrito.push(reserva);
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+
+            // Redirigir al catálogo
+            window.location.href = "catalogo.html";
+        });
+    </script>
+    <!-- jQuery y Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

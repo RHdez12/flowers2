@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - RoseWhispers</title>
+
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ff6a00, #ee0979);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('img/fondo.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+            width: 350px;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .btn-custom {
+            background-color: #ff4081;
+            border: none;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .btn-custom:hover {
+            background-color: #d6356e;
+        }
+
+        .toggle-link {
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .form-control {
+            background-color: white !important;
+        }
+
+        .input-group-text {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+
+  <div class="container-box">
+  <!-- Formulario de Login -->
+<div id="loginForm">
+    <h2 class="title">Iniciar Sesión</h2>
+    <form id="formLogin">
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" class="form-control" id="loginEmail" placeholder="Ingresa tu correo" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" class="form-control" id="loginPass" placeholder="Ingresa tu contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-custom">Ingresar</button>
+        <p class="toggle-link" onclick="toggleForm()">¿No tienes cuenta? Regístrate</p>
+    </form>
+</div>
+
+<!-- Formulario de Registro -->
+<div id="registerForm" style="display: none;">
+    <h2 class="title">Registrarse</h2>
+    <form id="formRegister">
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-user"></i></span>
+            <input type="text" class="form-control" id="registerName" placeholder="Ingresa tu nombre" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+            <input type="email" class="form-control" id="registerEmail" placeholder="Ingresa tu correo" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-phone"></i></span>
+            <input type="tel" class="form-control" id="registerPhone" placeholder="Ingresa tu teléfono" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+            <input type="text" class="form-control" id="registerAddress" placeholder="Ingresa tu dirección" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" class="form-control" id="registerPass" placeholder="Crea una contraseña" required>
+        </div>
+        <div class="mb-3 input-group">
+            <span class="input-group-text"><i class="fas fa-lock"></i></span>
+            <input type="password" class="form-control" id="registerConfirmPass" placeholder="Confirma tu contraseña" required>
+        </div>
+        <button type="submit" class="btn btn-custom">Registrar</button>
+        <p class="toggle-link" onclick="toggleForm()">¿Ya tienes cuenta? Inicia sesión</p>
+    </form>
+</div>
+
+        <!-- Opción de cerrar sesión -->
+        <div id="logoutOption" style="display: none;">
+            <h2 class="title">Cerrar Sesión</h2>
+            <p>Ya has iniciado sesión como <span id="loggedInUser"></span>.</p>
+            <button class="btn btn-custom" onclick="cerrarSesion()">Cerrar Sesión</button>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="volverInicio()" class="btn btn-secondary">Volver al Inicio</button>
+        </div>        
+    </div>
+
+    <!-- jQuery y Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script src="js/login.js"></script>
+    <!-- Script de validación y manejo de sesión -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const loggedInUser = localStorage.getItem("loggedInUser");
+            if (loggedInUser) {
+                document.getElementById("loggedInUser").textContent = loggedInUser;
+                document.getElementById("loginForm").style.display = "none";
+                document.getElementById("registerForm").style.display = "none";
+                document.getElementById("logoutOption").style.display = "block";
+            }
+        });
+
+        function cerrarSesion() {
+            localStorage.removeItem("loggedInUser");
+            window.location.href = "login.html";
+        }
+
+        function volverInicio() {
+            window.location.href = "index.html";
+        }
+    </script>
+</body>
+
+</html>

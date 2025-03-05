@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>RoseWhispers</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            position: relative;
+        }
+        
+        .logout-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .catalogo {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .detalle {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px;
+            width: 250px;
+            text-align: center;
+        }
+
+        .detalle img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        .boton {
+            background-color: #ff4081;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .formulario {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+
+        /* Estilos para el carrito flotante */
+        .carrito-flotante {
+            position: fixed;
+            top: 100px; /* Ajusta esta distancia desde la parte superior */
+            right: 20px;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            z-index: 1000;
+        }
+
+        .carrito-flotante h3 {
+            margin-top: 0;
+        }
+
+        .carrito-flotante ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .carrito-flotante li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .btn-reservar {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .btn-reservar:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Navbar Start -->
+<div class="container-fluid position-relative nav-bar p-0">
+    <div class="container-lg position-relative p-0 px-lg-3" style="z-index: 9;">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light shadow-lg py-3 py-lg-0 pl-3 pl-lg-5">
+            <a href="" class="navbar-brand">
+                <h1 class="m-0 text-primary"><span class="text-dark">GARDEN FLOWERS</span></h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-3" id="navbarCollapse">
+                <div class="navbar-nav ml-auto py-0">
+                    <!-- Inicio con icono de casa -->
+                    <a href="index.html" class="nav-item nav-link active">
+                        <i class="fas fa-home"></i> Inicio
+                    </a>
+                    <!-- Eventos con icono de calendario -->
+                    <a href="evento.html" class="nav-item nav-link">
+                        <i class="fas fa-calendar-alt"></i> Eventos
+                    </a>
+                    <!-- Catálogo con icono de lista -->
+                    <a href="catalogo.html" class="nav-item nav-link">
+                        <i class="fas fa-list"></i> Catálogo
+                    </a>
+                    <!-- Contacto con icono de sobre -->
+                    <a href="contact.html" class="nav-item nav-link">
+                        <i class="fas fa-envelope"></i> Contacto
+                    </a>
+                    <!-- Sesión o Cerrar Sesión (dinámico) -->
+                    <div id="sesion-nav">
+                        <!-- El contenido se actualizará con JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Navbar End -->
+    <!-- Carrito flotante -->
+    <div id="carrito" class="carrito-flotante">
+        <h3><i class="fas fa-shopping-cart"></i></h3> <!-- Solo ícono -->
+        <ul id="lista-carrito">
+            <!-- Los elementos del carrito se agregarán aquí dinámicamente -->
+        </ul>
+        <p>Total de detalles: <span id="total-detalles">0</span></p>
+        <button id="realizar-reserva" class="btn-reservar">Realizar Reserva</button>
+    </div>
+
+    <header>
+        <h1>Catálogo de Detalles</h1>
+    </header>
+    <main>
+        <div class="catalogo">
+            <!-- Detalle 1 -->
+            <div class="detalle">
+                <img src="img/opcion1.jpg" alt="Opción 1">
+                <h3>Noa</h3>
+                <p>Arreglo de flores y rosas artificiales con globo personalizado</p>
+                <p><strong>Precio: $35</strong></p>
+                <button class="btn-reservar" onclick="agregarAlCarrito('Noa', 35, 'img/opcion1.jpg')">Reservar</button>
+            </div>
+            <!-- Detalle 2 -->
+            <div class="detalle">
+                <img src="img/opcion2.jpg" alt="Opción 2">
+                <h3>Scarlett</h3>
+                <p>Arreglo de rosas, acompañado de gerbera en caja circular mediana</p>
+                <p><strong>Precio: $55</strong></p>
+                <button class="btn-reservar" onclick="agregarAlCarrito('Scarlett', 55, 'img/opcion2.jpg')">Reservar</button>
+            </div>
+            <!-- Detalle 3 -->
+            <div class="detalle">
+                <img src="img/opcion3.jpg" alt="Opción 3">
+                <h3>Ines</h3>
+                <p>Arreglo con rosas naturales en caja circular, una botella de vino acompañada de una caja de chocolates</p>
+                <p><strong>Precio: $85</strong></p>
+                <button class="btn-reservar" onclick="agregarAlCarrito('Ines', 85, 'img/opcion3.jpg')">Reservar</button>
+            </div>
+            <!-- Detalle 4 -->
+            <div class="detalle">
+                <img src="img/opcion4.jpg" alt="Opción 4">
+                <h3>Vivian</h3>
+                <p>Arreglo de rosas naturales, acompañadas de claveles en caja circular media con dedicatoria</p>
+                <p><strong>Precio: $65</strong></p>
+                <button class="btn-reservar" onclick="agregarAlCarrito('Vivian', 65, 'img/opcion4.jpg')">Reservar</button>
+            </div>
+            <!-- Detalle 5 -->
+            <div class="detalle">
+                <img src="img/opcion5.jpg" alt="Opción 5">
+                <h3>Mia</h3>
+                <p>Arreglo de rosas, acompañado de gerbera en caja circular mediana</p>
+                <p><strong>Precio: $25</strong></p>
+                <button class="btn-reservar" onclick="agregarAlCarrito('Mia', 25, 'img/opcion5.jpg')">Reservar</button>
+            </div>
+        </div>
+    </main>
+    <script>
+    // Función para cerrar sesión
+    function cerrarSesion() {
+        localStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+    }
+
+        // Array para almacenar los detalles del carrito
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+    
+        // Función para agregar un detalle al carrito
+        function agregarAlCarrito(nombre, precio, imagen) {
+            const usuarioLogueado = localStorage.getItem("loggedInUser");
+    
+            if (!usuarioLogueado) {
+                alert("Debe iniciar sesión para reservar un detalle.");
+                window.location.href = "login.html";
+                return;
+            }
+    
+            // Redirigir al formulario de reserva
+            window.location.href = `detalle_reserva.html?nombre=${encodeURIComponent(nombre)}&precio=${precio}&imagen=${encodeURIComponent(imagen)}`;
+        }
+    
+        // Función para actualizar el carrito en la interfaz
+        function actualizarCarrito() {
+            const listaCarrito = document.getElementById('lista-carrito');
+            const totalDetalles = document.getElementById('total-detalles');
+    
+            // Limpiar la lista
+            listaCarrito.innerHTML = '';
+    
+            // Agregar cada detalle al carrito
+            carrito.forEach((item, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    ${item.nombre} - $${item.precio}
+                    <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+                `;
+                listaCarrito.appendChild(li);
+            });
+    
+            // Actualizar el total de detalles
+            totalDetalles.textContent = carrito.length;
+        }
+    
+        // Función para eliminar un detalle del carrito
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            localStorage.setItem("carrito", JSON.stringify(carrito));
+            actualizarCarrito();
+        }
+    
+        // Función para realizar la reserva
+        document.getElementById('realizar-reserva').addEventListener('click', () => {
+            const usuarioLogueado = localStorage.getItem("loggedInUser");
+    
+            if (!usuarioLogueado) {
+                alert("Debe iniciar sesión para realizar una reserva.");
+                window.location.href = "login.html";
+                return;
+            }
+    
+            if (carrito.length === 0) {
+                alert('No hay detalles en el carrito.');
+                return;
+            }
+    
+            // Mostrar los detalles del carrito (simulación de envío)
+            let mensaje = "Detalles de la reserva:\n\n";
+            carrito.forEach((item, index) => {
+                mensaje += `Detalle ${index + 1}:\n`;
+                mensaje += `- Nombre: ${item.nombre}\n`;
+                mensaje += `- Precio: $${item.precio}\n`;
+                mensaje += `- Teléfono: ${item.telefono}\n`;
+                mensaje += `- Dirección: ${item.direccion}\n`;
+                mensaje += `- Fecha: ${item.fecha}\n`;
+                mensaje += `- Hora: ${item.hora}\n\n`;
+            });
+    
+            alert(mensaje);
+    
+            // Vaciar el carrito después de la reserva
+            carrito = [];
+            localStorage.removeItem("carrito");
+            actualizarCarrito();
+        });
+    
+        // Actualizar el carrito al cargar la página
+        actualizarCarrito();
+        function cerrarSesion() {
+        localStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const sesionNav = document.getElementById("sesion-nav");
+        const loggedInUser = localStorage.getItem("loggedInUser");
+
+        if (loggedInUser) {
+            sesionNav.innerHTML = `
+                <button class="logout-btn" onclick="cerrarSesion()">Cerrar Sesión</button>
+            `;
+        } else {
+            sesionNav.innerHTML = `
+                <a href="login.html" class="nav-item nav-link">
+                    <i class="fas fa-user"></i> Sesión
+                </a>
+            `;
+        }
+    });
+    </script>
+    <script src="js/login.js"></script>
+    <!-- jQuery y Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
