@@ -155,6 +155,46 @@
                 document.getElementById("registerForm").style.display = "none";
                 document.getElementById("logoutOption").style.display = "block";
             }
+
+            document.getElementById("formLogin").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const email = document.getElementById("loginEmail").value;
+                const password = document.getElementById("loginPass").value;
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                const user = users.find(user => user.email === email && user.password === password);
+                if (user) {
+                    localStorage.setItem("loggedInUser", user.name);
+                    window.location.href = "login.html";
+                } else {
+                    alert("Datos incorrectos. Por favor, verifica tu correo y contraseña.");
+                }
+            });
+
+            document.getElementById("formRegister").addEventListener("submit", function (e) {
+                e.preventDefault();
+                const name = document.getElementById("registerName").value;
+                const email = document.getElementById("registerEmail").value;
+                const phone = document.getElementById("registerPhone").value;
+                const address = document.getElementById("registerAddress").value;
+                const password = document.getElementById("registerPass").value;
+                const confirmPassword = document.getElementById("registerConfirmPass").value;
+
+                if (password !== confirmPassword) {
+                    alert("Las contraseñas no coinciden.");
+                    return;
+                }
+
+                const users = JSON.parse(localStorage.getItem("users")) || [];
+                if (users.find(user => user.email === email)) {
+                    alert("El correo ya está registrado.");
+                    return;
+                }
+
+                users.push({ name, email, phone, address, password });
+                localStorage.setItem("users", JSON.stringify(users));
+                alert("Registro exitoso. Ahora puedes iniciar sesión.");
+                toggleForm();
+            });
         });
 
         function cerrarSesion() {
@@ -164,6 +204,18 @@
 
         function volverInicio() {
             window.location.href = "index.html";
+        }
+
+        function toggleForm() {
+            const loginForm = document.getElementById("loginForm");
+            const registerForm = document.getElementById("registerForm");
+            if (loginForm.style.display === "none") {
+                loginForm.style.display = "block";
+                registerForm.style.display = "none";
+            } else {
+                loginForm.style.display = "none";
+                registerForm.style.display = "block";
+            }
         }
     </script>
 </body>
