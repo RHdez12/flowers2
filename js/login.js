@@ -50,6 +50,12 @@ function registerUser() {
         return;
     }
 
+    // Validar que la dirección no contenga '@'
+    if (address.includes('@')) {
+        alert("La dirección no puede contener el carácter '@'.");
+        return;
+    }
+
     // Obtener usuarios registrados
     let users = JSON.parse(localStorage.getItem("users")) || [];
 
